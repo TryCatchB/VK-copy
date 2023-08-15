@@ -1,0 +1,46 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #5277a3;
+  padding: 1.2rem 3rem 0.6rem;
+}
+
+.imgWrapper {
+  width: 25%;
+
+  & img {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.wrapper {
+  position: relative;
+  width: calc(75% - 16px);
+  border-radius: 30px;
+  background-color: #2c4a76;
+  margin-left: 16px;
+
+  & input {
+    width: 100%;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    background-color: transparent;
+
+    &::placeholder {
+      color: #4f7198;
+    }
+  }
+
+  & svg {
+    position: absolute;
+    top: 7px;
+    left: 45%;
+    fill: #607d9f !important;
+  }
+}

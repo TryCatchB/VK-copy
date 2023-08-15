@@ -8,8 +8,9 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router";
 import { menu } from "./dataMenu";
+import { FC } from "react";
 
-const Menu = () => {
+const Menu: FC = () => {
   const navigate = useNavigate();
 
   return (
