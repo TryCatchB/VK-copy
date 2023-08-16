@@ -59,7 +59,7 @@ const Posts: FC<IPosts> = ({ posts }) => {
             <ImageList variant="masonry" cols={3} gap={8}>
               {post.images.map((image) => (
                 <ImageListItem key={image}>
-                  <img src={image} alt="Image" />
+                  <img src={image} alt="" />
                 </ImageListItem>
               ))}
             </ImageList>

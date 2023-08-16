@@ -1,4 +1,7 @@
 import { QuestionAnswer } from "@mui/icons-material";
+import { FC } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { users } from "./dataUsers";
 import {
   Avatar,
   Box,
@@ -9,9 +12,6 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { FC } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { users } from "./dataUsers";
 
 const UserItems: FC = () => {
   const navigate = useNavigate();

@@ -1,3 +1,6 @@
+import { useNavigate } from "react-router";
+import { menu } from "./dataMenu";
+import { FC } from "react";
 import {
   Card,
   List,
@@ -6,9 +9,6 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { useNavigate } from "react-router";
-import { menu } from "./dataMenu";
-import { FC } from "react";
 
 const Menu: FC = () => {
   const navigate = useNavigate();

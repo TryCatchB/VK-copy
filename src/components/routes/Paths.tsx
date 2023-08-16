@@ -2,15 +2,16 @@ import { FC } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { routes } from "./list";
 import Layout from "../layout/Layout";
+import { useAuth } from "../providers/useAuth";
 
 const Paths: FC = () => {
-  const isAuth = true;
+  const { user } = useAuth();
   return (
     <Router>
       <Layout>
         <Routes>
           {routes.map((route) => {
-            if (route.auth && !isAuth) {
+            if (route.auth && !user) {
               return false;
             }
 
