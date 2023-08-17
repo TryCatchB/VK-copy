@@ -1,3 +1,6 @@
+import { IUser, TypeSetState } from "../../types";
+import { Auth, getAuth, onAuthStateChanged } from "firebase/auth";
+import { users } from "../layout/sidebar/dataUsers";
 import {
   FC,
   ReactNode,
@@ -6,9 +9,6 @@ import {
   useMemo,
   useState,
 } from "react";
-import { IUser, TypeSetState } from "../../types";
-import { Auth, getAuth, onAuthStateChanged } from "firebase/auth";
-import { users } from "../layout/sidebar/dataUsers";
 
 interface IContext {
   user: IUser | null;
@@ -25,15 +25,15 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   useEffect(() => {
     const unListen = onAuthStateChanged(ga, (authUser) => {
-      setUser(
-        authUser
-          ? {
-              id: authUser.uid,
-              avatar: users[1].avatar,
-              name: authUser.displayName || "",
-            }
-          : null
-      );
+      if (authUser) {
+        setUser({
+          id: authUser.uid,
+          avatar: users[1].avatar,
+          name: authUser.displayName || "",
+        });
+      } else {
+        setUser(null);
+      }
     });
 
     return () => {

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { routes } from "./list";
 import Layout from "../layout/Layout";
 import { useAuth } from "../providers/useAuth";
+import Auth from "../pages/auth/Auth";
 
 const Paths: FC = () => {
   const { user } = useAuth();
@@ -12,16 +13,16 @@ const Paths: FC = () => {
         <Routes>
           {routes.map((route) => {
             if (route.auth && !user) {
-              return false;
+              <Auth />;
+            } else {
+              return (
+                <Route
+                  path={route.path}
+                  key={`route ${route.path}`}
+                  element={<route.component />}
+                />
+              );
             }
-
-            return (
-              <Route
-                path={route.path}
-                key={`route ${route.path}`}
-                element={<route.component />}
-              />
-            );
           })}
         </Routes>
       </Layout>

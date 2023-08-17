@@ -2,11 +2,12 @@ import { Alert, Button, ButtonGroup, Grid, TextField } from "@mui/material";
 import { FC, SyntheticEvent, useEffect, useState } from "react";
 import { IUserData } from "./types";
 import { useAuth } from "../../providers/useAuth";
+import { useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
 
 const Auth: FC = () => {
   const { ga, user } = useAuth();
@@ -15,6 +16,7 @@ const Auth: FC = () => {
   const [userData, setUserData] = useState<IUserData>({
     email: "",
     password: "",
+    name: "",
   } as IUserData);
   const [error, setError] = useState("");
 
@@ -23,11 +25,13 @@ const Auth: FC = () => {
 
     if (isRegForm) {
       try {
-        await createUserWithEmailAndPassword(
+        const response = await createUserWithEmailAndPassword(
           ga,
           userData.email,
           userData.password
         );
+
+        await updateProfile(response.user, { displayName: "Joe" });
       } catch (error: any) {
         error.message && setError(error.message);
       }
@@ -39,7 +43,6 @@ const Auth: FC = () => {
     } else {
       console.log("auth");
     }
-    setUserData({ email: "", password: "" });
   };
 
   const navigate = useNavigate();
@@ -59,6 +62,14 @@ const Auth: FC = () => {
       )}
       <Grid display="flex" justifyContent="center" alignItems="center">
         <form onSubmit={handleLogin}>
+          <TextField
+            type="text"
+            label="Name"
+            variant="outlined"
+            sx={{ display: "block", marginBottom: 3 }}
+            value={userData.name}
+            onChange={(e) => setUserData({ ...userData, name: e.target.value })}
+          />
           <TextField
             type="email"
             label="Email"
