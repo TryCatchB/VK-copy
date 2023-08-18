@@ -4,6 +4,7 @@ import { routes } from "./list";
 import Layout from "../layout/Layout";
 import { useAuth } from "../providers/useAuth";
 import Auth from "../pages/auth/Auth";
+import User from "../layout/sidebar/User";
 
 const Paths: FC = () => {
   const { user } = useAuth();
@@ -12,17 +13,13 @@ const Paths: FC = () => {
       <Layout>
         <Routes>
           {routes.map((route) => {
-            if (route.auth && !user) {
-              <Auth />;
-            } else {
-              return (
-                <Route
-                  path={route.path}
-                  key={`route ${route.path}`}
-                  element={<route.component />}
-                />
-              );
-            }
+            return (
+              <Route
+                path={route.path}
+                key={`route ${route.path}`}
+                element={route.auth && !user ? <Auth /> : <route.component />}
+              />
+            );
           })}
         </Routes>
       </Layout>

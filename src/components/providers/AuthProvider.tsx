@@ -47,12 +47,8 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       setUser,
       ga,
     }),
-    [user]
+    [user, ga]
   );
 
-  return (
-    <AuthContext.Provider value={{ user, setUser, ga }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };

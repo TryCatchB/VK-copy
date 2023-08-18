@@ -13,12 +13,12 @@ const Auth: FC = () => {
   const { ga, user } = useAuth();
 
   const [isRegForm, setIsRedForm] = useState(false);
+  const [error, setError] = useState("");
   const [userData, setUserData] = useState<IUserData>({
     email: "",
     password: "",
     name: "",
   } as IUserData);
-  const [error, setError] = useState("");
 
   const handleLogin = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,17 +31,16 @@ const Auth: FC = () => {
           userData.password
         );
 
-        await updateProfile(response.user, { displayName: "Joe" });
+        await updateProfile(response.user, { displayName: userData.name });
       } catch (error: any) {
         error.message && setError(error.message);
       }
+    } else {
       try {
         await signInWithEmailAndPassword(ga, userData.email, userData.password);
       } catch (error: any) {
         error.message && setError(error.message);
       }
-    } else {
-      console.log("auth");
     }
   };
 

@@ -1,20 +1,10 @@
 import { Avatar, Button, Card, Chip } from "@mui/material";
 import { FC } from "react";
 import { useAuth } from "../../providers/useAuth";
-import { Auth, signOut } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
 
 const User: FC = () => {
   const { user, ga } = useAuth();
-
-  const navigate = useNavigate();
-
-  const exit = (ga: Auth): void => {
-    signOut(ga);
-    navigate("/auth");
-  };
-
-  console.log(user);
 
   return (
     <Card
@@ -33,7 +23,7 @@ const User: FC = () => {
         variant="outlined"
         sx={{ display: "flex", marginBottom: 2 }}
       />
-      <Button variant="outlined" onClick={() => exit(ga)}>
+      <Button variant="outlined" onClick={() => signOut(ga)}>
         Выход
       </Button>
     </Card>
