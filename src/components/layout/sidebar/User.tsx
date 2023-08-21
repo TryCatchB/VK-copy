@@ -4,7 +4,7 @@ import { useAuth } from "../../providers/useAuth";
 import { signOut } from "firebase/auth";
 
 const User: FC = () => {
-  const { user, ga } = useAuth();
+  const { ga, user } = useAuth();
 
   return (
     <Card
@@ -12,14 +12,14 @@ const User: FC = () => {
       sx={{
         padding: 2,
         backgroundColor: "#f1f7fa",
+        border: "none",
         borderRadius: 3,
         marginBottom: 5,
-        border: "none",
       }}
     >
       <Chip
         avatar={<Avatar alt="" src={user?.avatar} />}
-        label={user?.name || "Без имени"}
+        label={user?.name || "без имени"}
         variant="outlined"
         sx={{ display: "flex", marginBottom: 2 }}
       />

@@ -24,31 +24,22 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const ga = getAuth();
 
   useEffect(() => {
-    const unListen = onAuthStateChanged(ga, (authUser) => {
+    onAuthStateChanged(ga, (authUser) => {
       if (authUser) {
-        setUser({
+        const user = {
           id: authUser.uid,
           avatar: users[1].avatar,
           name: authUser.displayName || "",
-        });
+        };
+
+        setUser(user);
       } else {
         setUser(null);
       }
     });
-
-    return () => {
-      unListen();
-    };
   }, []);
 
-  const values = useMemo(
-    () => ({
-      user,
-      setUser,
-      ga,
-    }),
-    [user, ga]
-  );
+  const values = useMemo(() => ({ user, setUser, ga }), [user, ga]);
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };

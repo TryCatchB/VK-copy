@@ -1,8 +1,8 @@
 import { Alert, Button, ButtonGroup, Grid, TextField } from "@mui/material";
 import { FC, SyntheticEvent, useEffect, useState } from "react";
 import { IUserData } from "./types";
-import { useAuth } from "../../providers/useAuth";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../providers/useAuth";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -11,7 +11,6 @@ import {
 
 const Auth: FC = () => {
   const { ga, user } = useAuth();
-
   const [isRegForm, setIsRedForm] = useState(false);
   const [error, setError] = useState("");
   const [userData, setUserData] = useState<IUserData>({
@@ -42,6 +41,12 @@ const Auth: FC = () => {
         error.message && setError(error.message);
       }
     }
+
+    setUserData({
+      email: "",
+      password: "",
+      name: "",
+    });
   };
 
   const navigate = useNavigate();
@@ -62,7 +67,6 @@ const Auth: FC = () => {
       <Grid display="flex" justifyContent="center" alignItems="center">
         <form onSubmit={handleLogin}>
           <TextField
-            type="text"
             label="Name"
             variant="outlined"
             sx={{ display: "block", marginBottom: 3 }}
