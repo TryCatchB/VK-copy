@@ -12,7 +12,7 @@ export const routes = [
     auth: true,
   },
   {
-    path: "/profile/:id",
+    path: "/profile",
     component: Profile,
     auth: true,
   },

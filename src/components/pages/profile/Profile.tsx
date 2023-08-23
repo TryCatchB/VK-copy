@@ -1,7 +1,17 @@
 import { FC } from "react";
+import { useAuth } from "../../providers/useAuth";
+import Card from "../../ui/Card";
+import { Avatar } from "@mui/material";
 
 const Profile: FC = () => {
-  return <div>Profile</div>;
+  const { user } = useAuth();
+
+  return (
+    <Card>
+      <Avatar src={user?.avatar} />
+      <h1>{user?.name}</h1>
+    </Card>
+  );
 };
 
 export default Profile;

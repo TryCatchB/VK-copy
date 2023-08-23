@@ -18,6 +18,11 @@ export interface IPost {
   images?: string[];
 }
 
+export interface IMessage {
+  user: IUser;
+  message: string;
+}
+
 export interface IMenuItem {
   title: string;
   link: string;

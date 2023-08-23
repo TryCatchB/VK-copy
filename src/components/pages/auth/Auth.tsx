@@ -67,6 +67,7 @@ const Auth: FC = () => {
       <Grid display="flex" justifyContent="center" alignItems="center">
         <form onSubmit={handleLogin}>
           <TextField
+            type="text"
             label="Name"
             variant="outlined"
             sx={{ display: "block", marginBottom: 3 }}
