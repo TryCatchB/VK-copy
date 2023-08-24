@@ -1,7 +1,7 @@
 import { Alert, Box, TextField } from "@mui/material";
 import { FC, KeyboardEvent, useState } from "react";
 import { useAuth } from "../../providers/useAuth";
-import { addDoc, collection } from "firebase/firestore";
+import { ServiceAPI } from "../../services/service";
 
 const AddPost: FC = () => {
   const { user, db } = useAuth();
@@ -11,11 +11,7 @@ const AddPost: FC = () => {
   const addPostHandler = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && user) {
       try {
-        await addDoc(collection(db, "posts"), {
-          author: user,
-          content,
-          createdAt: "10 минут назад.",
-        });
+        ServiceAPI.postRequest(user, db, content, "posts");
       } catch (error: any) {
         setError(error);
       }
