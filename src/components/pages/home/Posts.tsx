@@ -3,28 +3,23 @@ import { IPost } from "../../../types";
 import { Avatar, Box, ImageList, ImageListItem } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../providers/useAuth";
-import { collection, onSnapshot } from "firebase/firestore";
 import { initialPosts } from "./initialPosts";
 import Card from "../../ui/Card";
+import ServiceAPI from "../../services/service";
 
 const Posts: FC = () => {
   const { db } = useAuth();
   const [posts, setPosts] = useState<IPost[]>(initialPosts);
 
   useEffect(() => {
-    const unSub = onSnapshot(collection(db, "posts"), (doc) => {
-      doc.forEach((d: any) => {
-        setPosts((prev) => [d.data(), ...prev]);
-      });
-    });
-
-    return () => unSub();
+    const dataToGet = { db, setFunction: setPosts, typeGetData: "posts" };
+    ServiceAPI.getPost(dataToGet);
   }, []);
 
   return (
     <>
-      {posts.map((post, idx) => (
-        <Card key={`Post-${idx}`}>
+      {posts.map((post, index) => (
+        <Card key={`Post-${index}`}>
           <Link
             key={post.author.id}
             to={`/profile${post.author.id}`}

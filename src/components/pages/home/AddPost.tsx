@@ -1,7 +1,7 @@
 import { Alert, Box, TextField } from "@mui/material";
 import { FC, KeyboardEvent, useState } from "react";
 import { useAuth } from "../../providers/useAuth";
-import { ServiceAPI } from "../../services/service";
+import ServiceAPI from "../../services/service";
 
 const AddPost: FC = () => {
   const { user, db } = useAuth();
@@ -10,8 +10,10 @@ const AddPost: FC = () => {
 
   const addPostHandler = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && user) {
+      const dataToRequest = { user, db, content, typeRequest: "posts" };
+
       try {
-        ServiceAPI.postRequest(user, db, content, "posts");
+        ServiceAPI.postRequest(dataToRequest);
       } catch (error: any) {
         setError(error);
       }
