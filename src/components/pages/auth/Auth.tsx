@@ -1,23 +1,28 @@
-import { Alert, Button, ButtonGroup, Grid, TextField } from "@mui/material";
+import { Button, ButtonGroup, Grid, TextField } from "@mui/material";
 import { FC, SyntheticEvent, useEffect, useState } from "react";
 import { IUserData } from "./types";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../providers/useAuth";
+import Error from "../../ui/Error/Error";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
 
+const initialValue = {
+  email: "",
+  password: "",
+  name: "",
+};
+
 const Auth: FC = () => {
   const { ga, user } = useAuth();
   const [isRegForm, setIsRedForm] = useState(false);
   const [error, setError] = useState("");
-  const [userData, setUserData] = useState<IUserData>({
-    email: "",
-    password: "",
-    name: "",
-  } as IUserData);
+  const [userData, setUserData] = useState<IUserData>(
+    initialValue as IUserData
+  );
 
   const handleLogin = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -42,11 +47,7 @@ const Auth: FC = () => {
       }
     }
 
-    setUserData({
-      email: "",
-      password: "",
-      name: "",
-    });
+    setUserData(initialValue);
   };
 
   const navigate = useNavigate();
@@ -59,11 +60,7 @@ const Auth: FC = () => {
 
   return (
     <>
-      {error && (
-        <Alert style={{ marginBottom: 20 }} severity="error">
-          {error}
-        </Alert>
-      )}
+      <Error error={error} />
       <Grid display="flex" justifyContent="center" alignItems="center">
         <form onSubmit={handleLogin}>
           <TextField

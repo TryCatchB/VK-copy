@@ -1,0 +1,17 @@
+.loader {
+  margin: 3.125rem auto;
+  width: 6.25rem;
+  height: 6.25rem;
+  border-radius: 50%;
+  border: 0.125rem dashed #5277a3;
+  animation: load 0.8s infinite linear;
+}
+
+@keyframes load {
+  from {
+    transform: rotate(0deg) scale(0.8);
+  }
+  to {
+    transform: rotate(360deg) scale(1.5);
+  }
+}

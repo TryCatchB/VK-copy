@@ -16,12 +16,14 @@ interface IContext {
   setUser: TypeSetState<IUser | null>;
   ga: Auth;
   db: Firestore;
+  isLoading: boolean;
 }
 
 export const AuthContext = createContext<IContext>({} as IContext);
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<IUser | null>({} as IUser);
+  const [isLoading, setIsLoading] = useState(true);
 
   const ga = getAuth();
   const db = getFirestore();
@@ -39,12 +41,17 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       } else {
         setUser(null);
       }
+
+      setIsLoading(false);
     });
 
     return () => unListen();
   }, []);
 
-  const values = useMemo(() => ({ user, setUser, ga, db }), [user, ga]);
+  const values = useMemo(
+    () => ({ user, setUser, ga, db, isLoading }),
+    [user, ga]
+  );
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };

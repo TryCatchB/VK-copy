@@ -1,11 +1,13 @@
-import { Alert, Box, TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import { FC, KeyboardEvent, useState } from "react";
 import { useAuth } from "../../providers/useAuth";
 import ServiceAPI from "../../services/service";
+import Error from "../../ui/Error/Error";
+import { useError } from "../../hooks/useError";
 
 const AddPost: FC = () => {
   const { user, db } = useAuth();
-  const [error, setError] = useState("");
+  const [error, setError] = useError();
   const [content, setContent] = useState<string>("");
 
   const addPostHandler = async (e: KeyboardEvent<HTMLInputElement>) => {
@@ -24,11 +26,7 @@ const AddPost: FC = () => {
 
   return (
     <>
-      {error && (
-        <Alert style={{ marginBottom: 20 }} severity="error">
-          {error}
-        </Alert>
-      )}
+      <Error error={error} />
       <Box sx={{ border: "1px solid #ccc", borderRadius: "10px" }}>
         <TextField
           label="Расскажите, что у вас нового?"
