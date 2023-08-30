@@ -1,16 +1,13 @@
 import { Alert } from "@mui/material";
-import { Dispatch, FC, ReactNode, SetStateAction } from "react";
+import { FC } from "react";
+import { IError } from "../../../types";
 
-interface IErrorProps {
-  error: string | Dispatch<SetStateAction<string>>;
-}
-
-const Error: FC<IErrorProps> = ({ error }) => {
+const Error: FC<IError> = ({ message }) => {
   return (
     <>
-      {error && (
+      {message && (
         <Alert style={{ marginBottom: 20 }} severity="error">
-          {error}
+          {message}
         </Alert>
       )}
     </>

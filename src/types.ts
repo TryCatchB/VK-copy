@@ -28,3 +28,7 @@ export interface IMenuItem {
   link: string;
   icon: OverridableComponent<SvgIconTypeMap<{}, "svg">> & { muiName: string };
 }
+
+export interface IError {
+  message: string | undefined;
+}

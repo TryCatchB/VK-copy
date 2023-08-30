@@ -1,12 +1,13 @@
 import { Dispatch, SetStateAction, useState } from "react";
+import { IError } from "../../types";
 
-interface IError {
-  error: string;
-  setError: Dispatch<SetStateAction<string>>;
+interface IUseErrorProps {
+  error: IError | null;
+  setError: Dispatch<SetStateAction<IError | null>>;
 }
 
-export const useError = () => {
-  const [error, setError] = useState<IError>("");
+export const useError = (): IUseErrorProps => {
+  const [error, setError] = useState<IError | null>(null);
 
-  return [error, setError];
+  return { error, setError };
 };

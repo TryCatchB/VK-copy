@@ -3,12 +3,14 @@ import { FC, SyntheticEvent, useEffect, useState } from "react";
 import { IUserData } from "./types";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../providers/useAuth";
+import { useError } from "../../hooks/useError";
 import Error from "../../ui/Error/Error";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 const initialValue = {
   email: "",
@@ -16,38 +18,39 @@ const initialValue = {
   name: "",
 };
 
+type FormData = {
+  name: string;
+  email: string;
+};
+
 const Auth: FC = () => {
   const { ga, user } = useAuth();
   const [isRegForm, setIsRedForm] = useState(false);
-  const [error, setError] = useState("");
-  const [userData, setUserData] = useState<IUserData>(
-    initialValue as IUserData
-  );
+  const { error, setError } = useError();
+  const { register, handleSubmit, reset } = useForm();
 
-  const handleLogin = async (e: SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const handleLogin: SubmitHandler<FieldValues> = async (data) => {
     if (isRegForm) {
       try {
         const response = await createUserWithEmailAndPassword(
           ga,
-          userData.email,
-          userData.password
+          data.email,
+          data.password
         );
 
-        await updateProfile(response.user, { displayName: userData.name });
+        await updateProfile(response.user, { displayName: data.name });
       } catch (error: any) {
-        error.message && setError(error.message);
+        setError(error);
       }
     } else {
       try {
-        await signInWithEmailAndPassword(ga, userData.email, userData.password);
+        await signInWithEmailAndPassword(ga, data.email, data.password);
       } catch (error: any) {
-        error.message && setError(error.message);
+        setError(error);
       }
     }
 
-    setUserData(initialValue);
+    reset();
   };
 
   const navigate = useNavigate();
@@ -60,36 +63,29 @@ const Auth: FC = () => {
 
   return (
     <>
-      <Error error={error} />
+      <Error message={error?.message} />
       <Grid display="flex" justifyContent="center" alignItems="center">
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleSubmit(handleLogin)}>
           <TextField
             type="text"
             label="Name"
             variant="outlined"
             sx={{ display: "block", marginBottom: 3 }}
-            value={userData.name}
-            onChange={(e) => setUserData({ ...userData, name: e.target.value })}
+            {...register("Name")}
           />
           <TextField
             type="email"
             label="Email"
             variant="outlined"
             sx={{ display: "block", marginBottom: 3 }}
-            value={userData.email}
-            onChange={(e) =>
-              setUserData({ ...userData, email: e.target.value })
-            }
+            {...register("email")}
           />
           <TextField
             type="password"
             label="Password"
             variant="outlined"
             sx={{ display: "block", marginBottom: 3 }}
-            value={userData.password}
-            onChange={(e) =>
-              setUserData({ ...userData, password: e.target.value })
-            }
+            {...register("password")}
           />
           <ButtonGroup variant="outlined">
             <Button type="submit" onClick={() => setIsRedForm(false)}>

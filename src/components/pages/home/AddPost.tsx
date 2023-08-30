@@ -7,7 +7,7 @@ import { useError } from "../../hooks/useError";
 
 const AddPost: FC = () => {
   const { user, db } = useAuth();
-  const [error, setError] = useError();
+  const { error, setError } = useError();
   const [content, setContent] = useState<string>("");
 
   const addPostHandler = async (e: KeyboardEvent<HTMLInputElement>) => {
@@ -26,7 +26,7 @@ const AddPost: FC = () => {
 
   return (
     <>
-      <Error error={error} />
+      <Error message={error?.message} />
       <Box sx={{ border: "1px solid #ccc", borderRadius: "10px" }}>
         <TextField
           label="Расскажите, что у вас нового?"
