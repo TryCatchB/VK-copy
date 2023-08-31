@@ -9,7 +9,15 @@ const Profile: FC = () => {
   return (
     <Card>
       <Avatar src={user?.avatar} />
-      <h1>{user?.name}</h1>
+      <div>
+        <h1>{user?.name}</h1>
+        <p>День рождения:</p>
+        <p>{user?.birthday}</p>
+        <p>Город:</p>
+        <p>{user?.city}</p>
+        <p>Язык:</p>
+        <p>{user?.language}</p>
+      </div>
     </Card>
   );
 };

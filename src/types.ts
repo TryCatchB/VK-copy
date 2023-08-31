@@ -8,6 +8,9 @@ export interface IUser {
   id: string;
   avatar: string;
   name: string;
+  birthday: string;
+  city: string;
+  language: string;
   isInNetwork?: boolean;
 }
 

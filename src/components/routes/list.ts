@@ -1,4 +1,5 @@
 import Auth from "../pages/auth/Auth";
+import DataUserForm from "../pages/auth/DataUserForm";
 import Friends from "../pages/friends/Friends";
 import Home from "../pages/home/Home";
 import Messages from "../pages/messages/Messages";
@@ -28,6 +29,11 @@ export const routes = [
   {
     path: "/auth",
     component: Auth,
+    auth: false,
+  },
+  {
+    path: "/info",
+    component: DataUserForm,
     auth: false,
   },
 ];

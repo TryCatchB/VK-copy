@@ -3,8 +3,10 @@ import { Auth, getAuth, onAuthStateChanged } from "firebase/auth";
 import { users } from "../layout/sidebar/dataUsers";
 import { Firestore, getFirestore } from "firebase/firestore";
 import {
+  Dispatch,
   FC,
   ReactNode,
+  SetStateAction,
   createContext,
   useEffect,
   useMemo,
@@ -17,12 +19,20 @@ interface IContext {
   ga: Auth;
   db: Firestore;
   isLoading: boolean;
+  setUserInfo: Dispatch<SetStateAction<IUserInfo>>;
+}
+
+interface IUserInfo {
+  birthday: string;
+  city: string;
+  language: string;
 }
 
 export const AuthContext = createContext<IContext>({} as IContext);
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<IUser | null>({} as IUser);
+  const [userInfo, setUserInfo] = useState<IUserInfo>({} as IUserInfo);
   const [isLoading, setIsLoading] = useState(true);
 
   const ga = getAuth();
@@ -37,7 +47,12 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
           name: authUser.displayName || "",
         };
 
-        setUser(user);
+        const newUser = {
+          ...user,
+          ...userInfo,
+        };
+
+        setUser(newUser);
       } else {
         setUser(null);
       }
@@ -49,7 +64,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   }, []);
 
   const values = useMemo(
-    () => ({ user, setUser, ga, db, isLoading }),
+    () => ({ user, setUser, ga, db, isLoading, setUserInfo }),
     [user, ga]
   );
 
