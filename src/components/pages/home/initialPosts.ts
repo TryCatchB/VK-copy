@@ -2,15 +2,13 @@ import { IPost } from "../../../types";
 
 export const initialPosts: IPost[] = [
   {
-    author: {
-      id: "sdff",
-      avatar:
-        "https://yt3.googleusercontent.com/ytc/AOPolaR_EOwxvSBK9MJDL44SdcxZNFcgyqhBHGdgP9e-ig=s900-c-k-c0x00ffffff-no-rj",
-      name: "National Geographic",
-      birthday: "22 сентября 1888 г.",
-      city: "Вашингтон",
-      language: "Английский",
-    },
+    id: "sdff",
+    avatar:
+      "https://yt3.googleusercontent.com/ytc/AOPolaR_EOwxvSBK9MJDL44SdcxZNFcgyqhBHGdgP9e-ig=s900-c-k-c0x00ffffff-no-rj",
+    name: "National Geographic",
+    birthday: "22 сентября 1888 г.",
+    city: "Вашингтон",
+    language: "Английский",
     content: "Серебряная осень в Сибири. Снял Евгений Иванов",
     createdAt: "15 минут назад",
     images: [

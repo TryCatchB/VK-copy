@@ -22,8 +22,8 @@ const Posts: FC = () => {
       {posts.map((post, index) => (
         <Card key={`Post-${index}`}>
           <Link
-            key={post.author.id}
-            to={`/profile${post.author.id}`}
+            key={post.id}
+            to={`/profile${post.id}`}
             style={{
               display: "flex",
               alignItems: "center",
@@ -41,13 +41,13 @@ const Posts: FC = () => {
               }}
             >
               <Avatar
-                src={post.author.avatar}
+                src={post.avatar}
                 alt="Image"
                 sx={{ width: 46, height: 46, borderRadius: "50%" }}
               />
             </Box>
             <div>
-              <div style={{ fontSize: 14 }}>{post.author.name}</div>
+              <div style={{ fontSize: 14 }}>{post.name}</div>
               <div style={{ fontSize: 14, opacity: "0,6" }}>
                 {post.createdAt}
               </div>

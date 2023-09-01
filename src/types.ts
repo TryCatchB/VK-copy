@@ -8,14 +8,19 @@ export interface IUser {
   id: string;
   avatar: string;
   name: string;
-  birthday: string;
-  city: string;
-  language: string;
+  birthday?: string;
+  city?: string;
+  language?: string;
   isInNetwork?: boolean;
 }
 
 export interface IPost {
-  author: IUser;
+  id: string;
+  avatar: string;
+  name: string;
+  birthday?: string;
+  city?: string;
+  language?: string;
   createdAt: string;
   content: string;
   images?: string[];

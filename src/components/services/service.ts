@@ -20,7 +20,7 @@ class ServiceAPI {
     const { user, db, content, typeRequest } = dataToRequest;
 
     await addDoc(collection(db, typeRequest), {
-      author: user,
+      ...user,
       content,
       createdAt: "10 минут назад.",
     });

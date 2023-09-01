@@ -3,10 +3,8 @@ import { Auth, getAuth, onAuthStateChanged } from "firebase/auth";
 import { users } from "../layout/sidebar/dataUsers";
 import { Firestore, getFirestore } from "firebase/firestore";
 import {
-  Dispatch,
   FC,
   ReactNode,
-  SetStateAction,
   createContext,
   useEffect,
   useMemo,
@@ -19,21 +17,13 @@ interface IContext {
   ga: Auth;
   db: Firestore;
   isLoading: boolean;
-  setUserInfo: Dispatch<SetStateAction<IUserInfo>>;
-}
-
-interface IUserInfo {
-  birthday: string;
-  city: string;
-  language: string;
 }
 
 export const AuthContext = createContext<IContext>({} as IContext);
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<IUser | null>({} as IUser);
-  const [userInfo, setUserInfo] = useState<IUserInfo>({} as IUserInfo);
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<IUser | null>({} as IUser);
 
   const ga = getAuth();
   const db = getFirestore();
@@ -47,24 +37,33 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
           name: authUser.displayName || "",
         };
 
-        const newUser = {
-          ...user,
-          ...userInfo,
-        };
+        const response = localStorage.getItem("userInfo");
 
-        setUser(newUser);
+        if (response !== null) {
+          const newUser = createObject(user, response);
+          setUser(newUser);
+        }
       } else {
         setUser(null);
       }
 
       setIsLoading(false);
     });
-
     return () => unListen();
   }, []);
 
+  function createObject(user: IUser, response: string): IUser {
+    const data = JSON.parse(response);
+
+    const newUser = {
+      ...user,
+      ...data,
+    };
+    return newUser;
+  }
+
   const values = useMemo(
-    () => ({ user, setUser, ga, db, isLoading, setUserInfo }),
+    () => ({ user, setUser, ga, db, isLoading }),
     [user, ga]
   );
 
