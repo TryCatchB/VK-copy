@@ -1,12 +1,13 @@
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 import vkLogo from "./vk-logo.png";
 import styles from "./Header.module.css";
 import { Search } from "@mui/icons-material";
-import { useQuery } from "../../hooks/useQuery";
+import { queryProvider } from "../../providers/QueryProvider";
 
 const Header: FC = () => {
   const [isSearchActive, setIsSearchActive] = useState(true);
-  const { query, setQuery } = useQuery();
+
+  const { query, setQuery } = useContext(queryProvider);
 
   return (
     <header className={styles.header}>
@@ -18,7 +19,7 @@ const Header: FC = () => {
         <input
           type="text"
           placeholder="Поиск"
-          value={query || ""}
+          value={query}
           onChange={(event) => setQuery(event.target.value)}
           onClick={() => setIsSearchActive(false)}
         />

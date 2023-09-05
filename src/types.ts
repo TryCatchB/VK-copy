@@ -40,3 +40,5 @@ export interface IMenuItem {
 export interface IError {
   message: string | undefined;
 }
+
+export interface IUseSearchProps extends IUser, IPost {}

@@ -3,6 +3,7 @@ import "./index.css";
 import Paths from "./components/routes/Paths";
 import * as firebase from "firebase/app";
 import { AuthProvider } from "./components/providers/AuthProvider";
+import QueryProvider from "./components/providers/QueryProvider";
 
 firebase.initializeApp({
   apiKey: "AIzaSyBS_Phv2uaCRDRiKPMOvPjvbj9NuGD0bXU",
@@ -19,6 +20,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <AuthProvider>
-    <Paths />
+    <QueryProvider>
+      <Paths />
+    </QueryProvider>
   </AuthProvider>
 );

@@ -1,12 +1,12 @@
 import { useMemo } from "react";
-import { IPost, IUser } from "../../types";
+import { IUseSearchProps } from "../../types";
 
-export const useSearch = (array: any, query: string) => {
+export const useSearch = (array: IUseSearchProps[], query: string | null) => {
   const searchedData = useMemo(() => {
-    return array.filter((item: IUser | IPost) =>
-      item.name.toLowerCase().includes(query)
+    return array.filter((item: IUseSearchProps) =>
+      item.name.toLowerCase().includes(query ?? "")
     );
-  }, [query]);
+  }, [array, query]);
 
   return searchedData;
 };
