@@ -1,0 +1,14 @@
+.card {
+  padding: 15px;
+
+  &:not(:last-child) {
+    margin-bottom: 15px;
+  }
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #111;
+}

@@ -27,7 +27,13 @@ const AddPost: FC = () => {
   return (
     <>
       <Error message={error?.message} />
-      <Box sx={{ border: "1px solid #ccc", borderRadius: "10px" }}>
+      <Box
+        sx={{
+          border: "1px solid #ccc",
+          borderRadius: "10px",
+          marginBottom: "15px",
+        }}
+      >
         <TextField
           label="Расскажите, что у вас нового?"
           variant="outlined"

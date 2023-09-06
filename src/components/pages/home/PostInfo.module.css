@@ -1,0 +1,8 @@
+.name,
+.createdAt {
+  font-size: 14px;
+}
+
+.createdAt {
+  opacity: 0.6;
+}
