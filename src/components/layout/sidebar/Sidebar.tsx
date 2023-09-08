@@ -1,5 +1,5 @@
 import { FC } from "react";
-import UserItems from "./UserItems";
+import Users from "./Users";
 import Menu from "./Menu";
 import User from "./User";
 
@@ -7,7 +7,7 @@ const Sidebar: FC = () => {
   return (
     <div>
       <User />
-      <UserItems />
+      <Users />
       <Menu />
     </div>
   );

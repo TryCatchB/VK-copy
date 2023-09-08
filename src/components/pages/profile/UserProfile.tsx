@@ -1,23 +1,26 @@
-import { Avatar, Card } from "@mui/material";
+import { Avatar } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import ServiceAPI from "../../services/service";
+import { useAuth } from "../../providers/useAuth";
+import { IUser } from "../../../types";
+import styles from "./Profile.module.css";
+import Card from "../../ui/Card";
 
 const UserProfile: FC = () => {
   const { id } = useParams();
-  const [user, setUser] = useState({});
+  const { db } = useAuth();
+  const [user, setUser] = useState<IUser | null>(null);
 
   useEffect(() => {
-    fetch(`/profile/${id}`)
-      .then((response) => response.json())
-      .then((data) => setUser(data))
-      .catch((error) => console.error("Error fetching user data", error));
-  }, [id]);
+    const dataToGet = { db, id, setFunction: setUser, typeGetData: "users" };
 
-  console.log(user);
+    ServiceAPI.getUser(dataToGet);
+  }, [id]);
 
   return (
     <Card>
-      {/* <Avatar src={user?.avatar} />
+      <Avatar src={user?.avatar} />
       <h1>{user?.name}</h1>
       <div className={styles.profile}>
         <p>День рождения:</p>
@@ -26,7 +29,7 @@ const UserProfile: FC = () => {
         <p>{user?.city}</p>
         <p>Язык:</p>
         <p>{user?.language}</p>
-      </div> */}
+      </div>
     </Card>
   );
 };

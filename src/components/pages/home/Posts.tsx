@@ -17,7 +17,7 @@ const Posts: FC = () => {
   useEffect(() => {
     const dataToGet = { db, setFunction: setPosts, typeGetData: "posts" };
 
-    ServiceAPI.getPost(dataToGet);
+    ServiceAPI.getPosts(dataToGet);
   }, []);
 
   return <PostsList posts={searchedPosts} />;

@@ -1,6 +1,5 @@
 import { IUser, TypeSetState } from "../../types";
 import { Auth, getAuth, onAuthStateChanged } from "firebase/auth";
-import { users } from "../layout/sidebar/dataUsers";
 import { Firestore, getFirestore } from "firebase/firestore";
 import {
   FC,
@@ -33,7 +32,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       if (authUser) {
         const user = {
           id: authUser.uid,
-          avatar: users[1].avatar,
+          avatar: "https://cdn-icons-png.flaticon.com/512/1177/1177568.png",
           name: authUser.displayName || "",
         };
 
