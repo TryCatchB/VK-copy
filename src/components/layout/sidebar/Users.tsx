@@ -1,6 +1,9 @@
 import { QuestionAnswer } from "@mui/icons-material";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import UsersList from "../../ui/UsersList/UsersList";
+import { IUser } from "../../../types";
+import { useUsers } from "../../hooks/useUsers";
 import {
   Card,
   List,
@@ -9,21 +12,12 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import UsersList from "../../ui/UsersList/UsersList";
-import { IUser } from "../../../types";
-import ServiceAPI from "../../services/service";
-import { useAuth } from "../../providers/useAuth";
 
 const Users: FC = () => {
   const navigate = useNavigate();
-  const { db } = useAuth();
   const [users, setUsers] = useState<IUser[]>([]);
 
-  useEffect(() => {
-    const dataToGet = { db, setFunc: setUsers, typeGetData: "users" };
-
-    ServiceAPI.getUsers(dataToGet);
-  }, []);
+  useUsers(setUsers);
 
   return (
     <Card

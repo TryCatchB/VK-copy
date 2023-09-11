@@ -21,8 +21,8 @@ export interface IPost {
   birthday?: string;
   city?: string;
   language?: string;
-  createdAt: string;
-  content: string;
+  createdAt?: string;
+  content?: string;
   images?: string[];
 }
 

@@ -1,100 +1,44 @@
-import { FC, MouseEvent, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useAuth } from "../../providers/useAuth";
-import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { IMessage } from "../../../types";
 import Card from "../../ui/Card";
+import ServiceAPI from "../../services/service";
 import SendIcon from "@mui/icons-material/Send";
-import {
-  Alert,
-  Avatar,
-  Divider,
-  Fab,
-  Grid,
-  List,
-  ListItem,
-  ListItemText,
-  TextField,
-} from "@mui/material";
+import { useError } from "../../hooks/useError";
+import Error from "../../ui/Error/Error";
+import styles from "./Messages.module.css";
+import { Divider, Fab, Grid, List, TextField } from "@mui/material";
+import ListMessages from "./ListMessages";
+import { addData } from "../../commonFunction/addData";
 
 const Messages: FC = () => {
   const { user, db } = useAuth();
-  const [error, setError] = useState("");
+  const { error, setError } = useError();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<IMessage[]>([]);
 
   useEffect(() => {
-    const unSub = onSnapshot(collection(db, "messages"), (doc) => {
-      const array: IMessage[] = [];
-
-      doc.forEach((d: any) => {
-        array.push(d.data());
-      });
-
-      setMessages(array);
-    });
-
+    const dataMessages = { db, setMessages, typeData: "messages" };
+    const unSub = ServiceAPI.getMessages(dataMessages);
     return () => unSub();
   }, []);
 
-  const addMessageHandler = async (e: MouseEvent<HTMLButtonElement>) => {
-    try {
-      await addDoc(collection(db, "messages"), {
-        user,
-        message,
-      });
-    } catch (error: any) {
-      setError(error);
-    }
+  const addMessageHandler = async () => {
+    const data = { user, db, message, ServiceAPI.getMessages, setError, "messages" };
+    addData(data);
 
     setMessage("");
   };
 
   return (
     <>
-      {error && (
-        <Alert style={{ marginBottom: 20 }} severity="error">
-          {error}
-        </Alert>
-      )}
-
+      <Error message={error?.message} />
       <Card>
-        <List style={{ height: "65vh", overflowY: "auto" }}>
-          {messages.map((message) => (
-            <ListItem key={message.user.id}>
-              <Grid
-                container
-                sx={message.user.id === user?.id ? { textAlign: "right" } : {}}
-              >
-                <Grid
-                  display="flex"
-                  justifyContent={
-                    message.user.id === user?.id ? "flex-end" : "flex-start"
-                  }
-                  item
-                  xs={12}
-                >
-                  <Avatar
-                    sx={{ width: "30", height: "30" }}
-                    src={message.user.avatar}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <ListItemText
-                    style={
-                      message.user.id === user?.id ? { color: "#5277a3" } : {}
-                    }
-                    primary={message.message}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <ListItemText secondary={message.user.name} />
-                </Grid>
-              </Grid>
-            </ListItem>
-          ))}
+        <List className={styles.list}>
+          <ListMessages messages={messages} />
         </List>
         <Divider />
-        <Grid container style={{ padding: "20px" }}>
+        <Grid container className={styles.grid}>
           <Grid item xs={11}>
             <TextField
               id="outlined-basic-email"

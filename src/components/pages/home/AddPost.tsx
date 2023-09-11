@@ -4,6 +4,7 @@ import { useAuth } from "../../providers/useAuth";
 import ServiceAPI from "../../services/service";
 import Error from "../../ui/Error/Error";
 import { useError } from "../../hooks/useError";
+import { addData } from "../../commonFunction/addData";
 
 const AddPost: FC = () => {
   const { user, db } = useAuth();
@@ -13,12 +14,7 @@ const AddPost: FC = () => {
   const addPostHandler = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && user) {
       const dataToRequest = { user, db, content, typeRequest: "posts" };
-
-      try {
-        ServiceAPI.postRequest(dataToRequest);
-      } catch (error: any) {
-        setError(error);
-      }
+      addData(ServiceAPI.addPost, setError, dataToRequest);
 
       setContent("");
     }

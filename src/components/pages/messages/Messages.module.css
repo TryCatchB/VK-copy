@@ -1,0 +1,8 @@
+.list {
+  height: 65vh;
+  overflow-y: auto;
+}
+
+.grid {
+  padding: 20px;
+}

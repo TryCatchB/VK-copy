@@ -1,8 +1,8 @@
 import { Firestore, addDoc, collection, onSnapshot } from "firebase/firestore";
-import { IPost, IUser } from "../../types";
+import { IMessage, IPost, IUser } from "../../types";
 import { Dispatch, SetStateAction } from "react";
 
-interface IArgsPostRequest {
+interface IArgsAddPost {
   user: IUser | null;
   db: Firestore;
   content: string;
@@ -28,8 +28,21 @@ interface IArgsGetUsers {
   typeGetData: string;
 }
 
+interface IArgsGetMessages {
+  db: Firestore;
+  setMessages: Dispatch<SetStateAction<IMessage[]>>;
+  typeData: string;
+}
+
+interface IArgsAddMessage {
+  user: IUser | null;
+  message: string;
+  db: Firestore;
+  type: string;
+}
+
 class ServiceAPI {
-  static async postRequest(dataToRequest: IArgsPostRequest): Promise<void> {
+  static async addPost(dataToRequest: IArgsAddPost): Promise<void> {
     const { user, db, content, typeRequest } = dataToRequest;
 
     await addDoc(collection(db, typeRequest), {
@@ -85,6 +98,29 @@ class ServiceAPI {
       if (users) {
         setFunc(users);
       }
+    });
+  }
+
+  static async addMessage(data: IArgsAddMessage) {
+    const { user, message, db, type } = data;
+
+    await addDoc(collection(db, type), {
+      user,
+      message,
+    });
+  }
+
+  static getMessages(dataMessages: IArgsGetMessages) {
+    const { db, setMessages, typeData } = dataMessages;
+
+    return onSnapshot(collection(db, typeData), (doc) => {
+      const array: IMessage[] = [];
+
+      doc.forEach((d: any) => {
+        array.push(d.data());
+      });
+
+      setMessages(array);
     });
   }
 }

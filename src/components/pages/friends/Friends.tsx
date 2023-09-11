@@ -1,22 +1,21 @@
-import { FC, useEffect, useState } from "react";
-import { useAuth } from "../../providers/useAuth";
-import ServiceAPI from "../../services/service";
+import { FC, useContext, useState } from "react";
 import { IUser } from "../../../types";
 import UsersList from "../../ui/UsersList/UsersList";
+import { useUsers } from "../../hooks/useUsers";
+import { queryProvider } from "../../providers/QueryProvider";
+import { useSearch } from "../../hooks/useSearch";
 
 const Friends: FC = () => {
-  const { db } = useAuth();
   const [friends, setFriends] = useState<IUser[]>([]);
+  const { query } = useContext(queryProvider);
 
-  useEffect(() => {
-    const dataToGet = { db, setFunc: setFriends, typeGetData: "users" };
+  const searchedFriends = useSearch(friends, query);
 
-    ServiceAPI.getUsers(dataToGet);
-  }, []);
+  useUsers(setFriends);
 
   return (
     <div>
-      <UsersList users={friends} />
+      <UsersList users={searchedFriends} />
     </div>
   );
 };
