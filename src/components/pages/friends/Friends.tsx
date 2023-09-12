@@ -4,6 +4,7 @@ import UsersList from "../../ui/UsersList/UsersList";
 import { useUsers } from "../../hooks/useUsers";
 import { queryProvider } from "../../providers/QueryProvider";
 import { useSearch } from "../../hooks/useSearch";
+import Loader from "../../ui/Loader/Loader";
 
 const Friends: FC = () => {
   const [friends, setFriends] = useState<IUser[]>([]);
@@ -12,6 +13,10 @@ const Friends: FC = () => {
   const searchedFriends = useSearch(friends, query);
 
   useUsers(setFriends);
+
+  if (!friends.length) {
+    return <Loader />;
+  }
 
   return (
     <div>

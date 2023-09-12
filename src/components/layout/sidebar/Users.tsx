@@ -12,12 +12,17 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import Loader from "../../ui/Loader/Loader";
 
 const Users: FC = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState<IUser[]>([]);
 
   useUsers(setUsers);
+
+  if (!users.length) {
+    return <Loader />;
+  }
 
   return (
     <Card

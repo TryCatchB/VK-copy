@@ -5,6 +5,7 @@ import ServiceAPI from "../../services/service";
 import { useSearch } from "../../hooks/useSearch";
 import { queryProvider } from "../../providers/QueryProvider";
 import PostsList from "./PostsList";
+import Loader from "../../ui/Loader/Loader";
 
 const Posts: FC = () => {
   const { db } = useAuth();
@@ -18,6 +19,10 @@ const Posts: FC = () => {
 
     ServiceAPI.getPosts(dataToGet);
   }, []);
+
+  if (!posts.length) {
+    return <Loader />;
+  }
 
   return <PostsList posts={searchedPosts} />;
 };

@@ -8,6 +8,11 @@ import UserProfile from "../pages/profile/UserProfile";
 
 export const routes = [
   {
+    path: "/auth",
+    component: Auth,
+    auth: false,
+  },
+  {
     path: "/",
     component: Home,
     auth: true,
@@ -32,11 +37,7 @@ export const routes = [
     component: Friends,
     auth: true,
   },
-  {
-    path: "/auth",
-    component: Auth,
-    auth: false,
-  },
+
   {
     path: "/info",
     component: DataUserForm,

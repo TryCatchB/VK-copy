@@ -1,6 +1,7 @@
 import { Button, ButtonGroup, Grid, TextField } from "@mui/material";
 import { FC, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../providers/useAuth";
 import { useError } from "../../hooks/useError";
 import Error from "../../ui/Error/Error";
@@ -15,6 +16,7 @@ const Auth: FC = () => {
   const [isRegForm, setIsRedForm] = useState(false);
   const { error, setError } = useError();
   const { register, handleSubmit, reset } = useForm();
+  const navigate = useNavigate();
 
   const handleLogin: SubmitHandler<FieldValues> = async (data) => {
     if (isRegForm) {
@@ -37,6 +39,7 @@ const Auth: FC = () => {
       }
     }
 
+    navigate("/");
     reset();
   };
 
