@@ -5,17 +5,19 @@ import { Firestore } from "firebase/firestore";
 interface IAddDataArgs {
   user: IUser | null;
   db: Firestore;
-  message: string;
+  message?: string;
+  content?: string;
   addFunction: Function;
   setError: Dispatch<SetStateAction<IError | null>>;
   type: string;
 }
 
-export const addData = (user, db, message, addFunction, setError, type) => {
-  const data = { user, db, message, type: type };
+export const addData = (data: IAddDataArgs) => {
+  const { user, db, message, content, type, addFunction, setError } = data;
+  const dataForAdd = { user, db, message, content, type };
 
   try {
-    addFunction(data);
+    addFunction(dataForAdd);
   } catch (error: any) {
     setError(error);
   }

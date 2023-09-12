@@ -13,8 +13,15 @@ const AddPost: FC = () => {
 
   const addPostHandler = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && user) {
-      const dataToRequest = { user, db, content, typeRequest: "posts" };
-      addData(ServiceAPI.addPost, setError, dataToRequest);
+      const data = {
+        user,
+        db,
+        content,
+        addFunction: ServiceAPI.addPost,
+        setError,
+        type: "posts",
+      };
+      addData(data);
 
       setContent("");
     }

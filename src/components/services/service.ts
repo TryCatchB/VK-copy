@@ -6,7 +6,7 @@ interface IArgsAddPost {
   user: IUser | null;
   db: Firestore;
   content: string;
-  typeRequest: string;
+  type: string;
 }
 
 interface IArgsGetPost {
@@ -42,10 +42,10 @@ interface IArgsAddMessage {
 }
 
 class ServiceAPI {
-  static async addPost(dataToRequest: IArgsAddPost): Promise<void> {
-    const { user, db, content, typeRequest } = dataToRequest;
+  static async addPost(data: IArgsAddPost): Promise<void> {
+    const { user, db, content, type } = data;
 
-    await addDoc(collection(db, typeRequest), {
+    await addDoc(collection(db, type), {
       ...user,
       content,
       createdAt: "10 минут назад.",

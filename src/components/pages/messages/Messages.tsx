@@ -24,7 +24,14 @@ const Messages: FC = () => {
   }, []);
 
   const addMessageHandler = async () => {
-    const data = { user, db, message, ServiceAPI.getMessages, setError, "messages" };
+    const data = {
+      user,
+      db,
+      message,
+      addFunction: ServiceAPI.getMessages,
+      setError,
+      type: "messages",
+    };
     addData(data);
 
     setMessage("");

@@ -9,6 +9,10 @@ interface IUsersListProps {
 }
 
 const UsersList: FC<IUsersListProps> = ({ users }) => {
+  if (!users.length) {
+    return <h1 style={{ textAlign: "center" }}>Друзья не найдены</h1>;
+  }
+
   return (
     <>
       {users.map((user: any) => (

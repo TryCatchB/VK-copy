@@ -12,14 +12,18 @@ interface IPostsListProps {
 
 const PostsList: FC<IPostsListProps> = ({ posts }) => {
   if (!posts.length) {
-    return <h1 style={{ textAlign: "center" }}>Posts didn't find</h1>;
+    return <h1 style={{ textAlign: "center" }}>Новостей не найдено</h1>;
   }
 
   return (
     <>
       {posts.map((post, index) => (
         <Card key={`Post-${index}`} className={styles.card}>
-          <Link key={post.id} to={`/profile${post.id}`} className={styles.link}>
+          <Link
+            key={post.id}
+            to={`/profile/${post.id}`}
+            className={styles.link}
+          >
             <Box
               sx={{
                 position: "relative",

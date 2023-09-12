@@ -1,7 +1,6 @@
 import { Button, ButtonGroup, Grid, TextField } from "@mui/material";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../providers/useAuth";
 import { useError } from "../../hooks/useError";
 import Error from "../../ui/Error/Error";
@@ -12,7 +11,7 @@ import {
 } from "firebase/auth";
 
 const Auth: FC = () => {
-  const { ga, user } = useAuth();
+  const { ga } = useAuth();
   const [isRegForm, setIsRedForm] = useState(false);
   const { error, setError } = useError();
   const { register, handleSubmit, reset } = useForm();
@@ -40,14 +39,6 @@ const Auth: FC = () => {
 
     reset();
   };
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, [user]);
 
   return (
     <>
