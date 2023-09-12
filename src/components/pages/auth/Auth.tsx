@@ -48,7 +48,7 @@ const Auth: FC = () => {
     <>
       <Error message={error?.message} />
       <Grid display="flex" justifyContent="center" alignItems="center">
-        <form onSubmit={handleSubmit(handleLogin)}>
+        <form>
           <TextField
             id="name"
             type="text"
