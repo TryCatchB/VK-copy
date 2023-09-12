@@ -28,8 +28,6 @@ const Auth: FC = () => {
         );
 
         await updateProfile(response.user, { displayName: data.name });
-
-        navigate("/");
       } catch (error: any) {
         setError(error);
       }
@@ -48,7 +46,7 @@ const Auth: FC = () => {
     <>
       <Error message={error?.message} />
       <Grid display="flex" justifyContent="center" alignItems="center">
-        <form>
+        <form onSubmit={handleSubmit(handleLogin)}>
           <TextField
             id="name"
             type="text"
