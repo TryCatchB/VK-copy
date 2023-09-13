@@ -4,6 +4,8 @@ import Paths from "./components/routes/Paths";
 import * as firebase from "firebase/app";
 import { AuthProvider } from "./components/providers/AuthProvider";
 import QueryProvider from "./components/providers/QueryProvider";
+import { getApp } from "firebase/app";
+import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
 
 firebase.initializeApp({
   apiKey: "AIzaSyBS_Phv2uaCRDRiKPMOvPjvbj9NuGD0bXU",
@@ -13,6 +15,9 @@ firebase.initializeApp({
   messagingSenderId: "336377181468",
   appId: "1:336377181468:web:cc438a8ee803e511f0f6d9",
 });
+
+const functions = getFunctions(getApp());
+connectFunctionsEmulator(functions, "127.0.0.1", 5000);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
