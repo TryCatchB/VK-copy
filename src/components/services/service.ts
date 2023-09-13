@@ -31,7 +31,6 @@ interface IArgsGetUsers {
 interface IArgsGetMessages {
   db: Firestore;
   setMessages: Dispatch<SetStateAction<IMessage[]>>;
-  typeData: string;
 }
 
 interface IArgsAddMessage {
@@ -111,9 +110,9 @@ class ServiceAPI {
   }
 
   static getMessages(dataMessages: IArgsGetMessages) {
-    const { db, setMessages, typeData } = dataMessages;
+    const { db, setMessages } = dataMessages;
 
-    return onSnapshot(collection(db, typeData), (doc) => {
+    return onSnapshot(collection(db, "messages"), (doc) => {
       const array: IMessage[] = [];
 
       doc.forEach((d: any) => {

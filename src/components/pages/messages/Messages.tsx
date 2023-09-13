@@ -18,7 +18,8 @@ const Messages: FC = () => {
   const [messages, setMessages] = useState<IMessage[]>([]);
 
   useEffect(() => {
-    const dataMessages = { db, setMessages, typeData: "messages" };
+    const dataMessages = { db, setMessages };
+
     const unSub = ServiceAPI.getMessages(dataMessages);
     return () => unSub();
   }, []);
@@ -28,7 +29,7 @@ const Messages: FC = () => {
       user,
       db,
       message,
-      addFunction: ServiceAPI.getMessages,
+      addFunction: ServiceAPI.addMessage,
       setError,
       type: "messages",
     };
