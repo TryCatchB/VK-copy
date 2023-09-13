@@ -28,6 +28,7 @@ const Auth: FC = () => {
         );
 
         await updateProfile(response.user, { displayName: data.name });
+        navigate("/");
       } catch (error: any) {
         setError(error);
       }
