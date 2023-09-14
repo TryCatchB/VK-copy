@@ -19,7 +19,6 @@ const Auth: FC = () => {
   const navigate = useNavigate();
 
   const handleLogin: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
     if (isRegForm) {
       try {
         const response = await createUserWithEmailAndPassword(
@@ -36,6 +35,7 @@ const Auth: FC = () => {
     } else {
       try {
         await signInWithEmailAndPassword(ga, data.email, data.password);
+        navigate("/");
       } catch (error: any) {
         setError(error);
       }
