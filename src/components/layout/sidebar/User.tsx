@@ -1,7 +1,7 @@
 import { Avatar, Button, Card, Chip } from "@mui/material";
 import { FC } from "react";
-import { useAuth } from "../../providers/useAuth";
 import { signOut } from "firebase/auth";
+import { useAuth } from "../../providers/useAuth";
 
 const User: FC = () => {
   const { ga, user } = useAuth();

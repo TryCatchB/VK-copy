@@ -1,9 +1,6 @@
 import { QuestionAnswer } from "@mui/icons-material";
 import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import UsersList from "../../ui/UsersList/UsersList";
-import { IUser } from "../../../types";
-import { useUsers } from "../../hooks/useUsers";
 import {
   Card,
   List,
@@ -12,6 +9,9 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import UsersList from "../../ui/UsersList/UsersList";
+import { IUser } from "../../../types";
+import { useUsers } from "../../hooks/useUsers";
 import Loader from "../../ui/Loader/Loader";
 
 const Users: FC = () => {

@@ -1,42 +1,39 @@
+import { Dispatch, SetStateAction } from "react";
 import { Firestore, addDoc, collection, onSnapshot } from "firebase/firestore";
 import { IMessage, IPost, IUser } from "../../types";
-import { Dispatch, SetStateAction } from "react";
 
-interface IArgsAddPost {
-  user: IUser | null;
+interface IArgsBase {
   db: Firestore;
+}
+
+interface IArgsWithSetFunction<T> extends IArgsBase {
+  setFunction: Dispatch<SetStateAction<T>>;
+}
+
+interface IArgsAddPost extends IArgsBase {
+  user: IUser | null;
   content: string;
   type: string;
 }
 
-interface IArgsGetPost {
-  db: Firestore;
-  setFunction: Dispatch<SetStateAction<IPost[]>>;
+interface IArgsGetPost extends IArgsWithSetFunction<IPost[]> {
   typeGetData: string;
 }
 
-interface IArgsGetUser {
-  db: Firestore;
+interface IArgsGetUser extends IArgsWithSetFunction<IUser | null> {
   id: string | undefined;
-  setFunction: Dispatch<SetStateAction<IUser | null>>;
   typeGetData: string;
 }
 
-interface IArgsGetUsers {
-  db: Firestore;
-  setFunc: Dispatch<SetStateAction<IUser[]>>;
+interface IArgsGetUsers extends IArgsWithSetFunction<IUser[]> {
   typeGetData: string;
 }
 
-interface IArgsGetMessages {
-  db: Firestore;
-  setMessages: Dispatch<SetStateAction<IMessage[]>>;
-}
+interface IArgsGetMessages extends IArgsWithSetFunction<IMessage[]> {}
 
-interface IArgsAddMessage {
+interface IArgsAddMessage extends IArgsBase {
   user: IUser | null;
   message: string;
-  db: Firestore;
   type: string;
 }
 
@@ -82,20 +79,20 @@ class ServiceAPI {
   }
 
   static getUsers(dataToGet: IArgsGetUsers) {
-    const { db, setFunc, typeGetData } = dataToGet;
+    const { db, setFunction, typeGetData } = dataToGet;
 
-    onSnapshot(collection(db, typeGetData), (snapshot) => {
+    const userCollection = collection(db, typeGetData);
+
+    onSnapshot(userCollection, (snapshot) => {
       const docs: any = [];
       snapshot.forEach((doc) => {
-        docs.push(doc);
+        docs.push(doc.data());
       });
 
-      const users = docs
-        .map((doc: any) => doc.data())
-        .flatMap((data: any) => data.users);
+      const users = docs.flatMap((data: any) => data.users);
 
       if (users) {
-        setFunc(users);
+        setFunction(users);
       }
     });
   }
@@ -110,7 +107,7 @@ class ServiceAPI {
   }
 
   static getMessages(dataMessages: IArgsGetMessages) {
-    const { db, setMessages } = dataMessages;
+    const { db, setFunction } = dataMessages;
 
     return onSnapshot(collection(db, "messages"), (doc) => {
       const array: IMessage[] = [];
@@ -119,7 +116,7 @@ class ServiceAPI {
         array.push(d.data());
       });
 
-      setMessages(array);
+      setFunction(array);
     });
   }
 }

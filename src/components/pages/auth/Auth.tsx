@@ -2,55 +2,54 @@ import { Button, ButtonGroup, Grid, TextField } from "@mui/material";
 import { FC, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../providers/useAuth";
-import { useError } from "../../hooks/useError";
-import Error from "../../ui/Error/Error";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
+import { useAuth } from "../../providers/useAuth";
+import { useError } from "../../hooks/useError";
+import Error from "../../ui/Error/Error";
 
 const Auth: FC = () => {
   const { ga } = useAuth();
-  const [isRegForm, setIsRedForm] = useState(false);
+  const [isRegForm, setIsRegForm] = useState(false);
   const { error, setError } = useError();
   const { register, handleSubmit, reset } = useForm();
   const navigate = useNavigate();
 
-  const handleLogin: SubmitHandler<FieldValues> = async (data) => {
-    if (isRegForm) {
-      try {
+  const handleAuth = async (email: string, password: string, name?: string) => {
+    try {
+      if (isRegForm) {
         const response = await createUserWithEmailAndPassword(
           ga,
-          data.email,
-          data.password
+          email,
+          password
         );
-
-        await updateProfile(response.user, { displayName: data.name });
-        navigate("/");
-      } catch (error: any) {
-        setError(error);
+        if (name) {
+          await updateProfile(response.user, { displayName: name });
+        }
+      } else {
+        await signInWithEmailAndPassword(ga, email, password);
       }
-    } else {
-      try {
-        await signInWithEmailAndPassword(ga, data.email, data.password);
-        navigate("/");
-      } catch (error: any) {
-        setError(error);
-      }
+      navigate("/");
+    } catch (err: any) {
+      setError(err);
+    } finally {
+      reset();
     }
+  };
 
-    reset();
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    handleAuth(data.email, data.password, data.name);
   };
 
   return (
     <>
       <Error message={error?.message} />
       <Grid display="flex" justifyContent="center" alignItems="center">
-        <form onSubmit={handleSubmit(handleLogin)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
-            id="name"
             type="text"
             label="Имя"
             variant="outlined"
@@ -75,10 +74,10 @@ const Auth: FC = () => {
             {...register("password")}
           />
           <ButtonGroup variant="outlined">
-            <Button type="submit" onClick={() => setIsRedForm(false)}>
+            <Button type="submit" onClick={() => setIsRegForm(false)}>
               Авторизация
             </Button>
-            <Button type="submit" onClick={() => setIsRedForm(true)}>
+            <Button type="submit" onClick={() => setIsRegForm(true)}>
               Зарегистрироваться
             </Button>
           </ButtonGroup>

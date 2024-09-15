@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router";
-import { menu } from "./dataMenu";
 import { FC } from "react";
 import {
   Card,
@@ -9,6 +8,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import { menu } from "./dataMenu";
 
 const Menu: FC = () => {
   const navigate = useNavigate();

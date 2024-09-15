@@ -1,6 +1,3 @@
-import { IUser, TypeSetState } from "../../types";
-import { Auth, getAuth, onAuthStateChanged } from "firebase/auth";
-import { Firestore, getFirestore } from "firebase/firestore";
 import {
   FC,
   ReactNode,
@@ -9,6 +6,9 @@ import {
   useMemo,
   useState,
 } from "react";
+import { Auth, getAuth, onAuthStateChanged } from "firebase/auth";
+import { Firestore, getFirestore } from "firebase/firestore";
+import { IUser, TypeSetState } from "../../types";
 
 interface IContext {
   user: IUser | null;

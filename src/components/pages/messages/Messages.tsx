@@ -18,7 +18,7 @@ const Messages: FC = () => {
   const [messages, setMessages] = useState<IMessage[]>([]);
 
   useEffect(() => {
-    const dataMessages = { db, setMessages };
+    const dataMessages = { db, setFunction: setMessages };
 
     const unSub = ServiceAPI.getMessages(dataMessages);
     return () => unSub();

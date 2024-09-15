@@ -7,7 +7,7 @@ export const useUsers = (setFunction: Dispatch<SetStateAction<IUser[]>>) => {
   const { db } = useAuth();
 
   useEffect(() => {
-    const dataToGet = { db, setFunc: setFunction, typeGetData: "users" };
+    const dataToGet = { db, setFunction, typeGetData: "users" };
 
     ServiceAPI.getUsers(dataToGet);
   }, []);
