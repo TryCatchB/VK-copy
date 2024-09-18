@@ -9,6 +9,8 @@ export const useUsers = (setFunction: Dispatch<SetStateAction<IUser[]>>) => {
   useEffect(() => {
     const dataToGet = { db, setFunction, typeGetData: "users" };
 
-    ServiceAPI.getUsers(dataToGet);
-  }, []);
+    const unsubscribe = ServiceAPI.getUsers(dataToGet);
+
+    return () => unsubscribe();
+  }, [db, setFunction]);
 };

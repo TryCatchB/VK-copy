@@ -18,6 +18,8 @@ export const useUser = (
       typeGetData: "users",
     };
 
-    ServiceAPI.getUser(dataToGet);
-  }, [id]);
+    const unsubscribe = ServiceAPI.getUser(dataToGet);
+
+    return () => unsubscribe();
+  }, [id, db, setFunction]);
 };

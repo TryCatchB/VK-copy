@@ -48,56 +48,57 @@ class ServiceAPI {
     });
   }
 
-  static async getPosts(dataToGet: IArgsGetPost) {
+  static getPosts(dataToGet: IArgsGetPost): () => void {
     const { db, setFunction, typeGetData } = dataToGet;
 
-    onSnapshot(collection(db, typeGetData), (docs) => {
-      docs.forEach((d: any) => {
-        setFunction((prev: IPost[]) => [d.data(), ...prev]);
+    const unsubscribe = onSnapshot(collection(db, typeGetData), (snapshot) => {
+      const posts: IPost[] = [];
+      snapshot.forEach((doc) => {
+        posts.push(doc.data() as IPost);
       });
+      setFunction(posts);
     });
+
+    return unsubscribe;
   }
 
-  static getUser(dataToGet: IArgsGetUser) {
+  static getUser(dataToGet: IArgsGetUser): () => void {
     const { db, id, setFunction, typeGetData } = dataToGet;
 
-    onSnapshot(collection(db, typeGetData), (snapshot) => {
-      const docs: any = [];
+    const unsubscribe = onSnapshot(collection(db, typeGetData), (snapshot) => {
+      const users: IUser[] = [];
       snapshot.forEach((doc) => {
-        docs.push(doc);
+        const data = doc.data();
+        if (data.users) {
+          users.push(...data.users);
+        }
       });
 
-      const user = docs
-        .map((doc: any) => doc.data())
-        .flatMap((data: any) => data.users)
-        .find((user: IUser) => user.id === id);
-
-      if (user) {
-        setFunction(user);
-      }
+      const user = users.find((user) => user.id === id);
+      setFunction(user || null);
     });
+
+    return unsubscribe;
   }
 
-  static getUsers(dataToGet: IArgsGetUsers) {
+  static getUsers(dataToGet: IArgsGetUsers): () => void {
     const { db, setFunction, typeGetData } = dataToGet;
 
-    const userCollection = collection(db, typeGetData);
-
-    onSnapshot(userCollection, (snapshot) => {
-      const docs: any = [];
+    const unsubscribe = onSnapshot(collection(db, typeGetData), (snapshot) => {
+      const users: IUser[] = [];
       snapshot.forEach((doc) => {
-        docs.push(doc.data());
+        const data = doc.data();
+        if (data.users) {
+          users.push(...data.users);
+        }
       });
-
-      const users = docs.flatMap((data: any) => data.users);
-
-      if (users) {
-        setFunction(users);
-      }
+      setFunction(users);
     });
+
+    return unsubscribe;
   }
 
-  static async addMessage(data: IArgsAddMessage) {
+  static async addMessage(data: IArgsAddMessage): Promise<void> {
     const { user, message, db, type } = data;
 
     await addDoc(collection(db, type), {
@@ -106,18 +107,18 @@ class ServiceAPI {
     });
   }
 
-  static getMessages(dataMessages: IArgsGetMessages) {
+  static getMessages(dataMessages: IArgsGetMessages): () => void {
     const { db, setFunction } = dataMessages;
 
-    return onSnapshot(collection(db, "messages"), (doc) => {
-      const array: IMessage[] = [];
-
-      doc.forEach((d: any) => {
-        array.push(d.data());
+    const unsubscribe = onSnapshot(collection(db, "messages"), (snapshot) => {
+      const messages: IMessage[] = [];
+      snapshot.forEach((doc) => {
+        messages.push(doc.data() as IMessage);
       });
-
-      setFunction(array);
+      setFunction(messages);
     });
+
+    return unsubscribe;
   }
 }
 

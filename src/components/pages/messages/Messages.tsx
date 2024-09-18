@@ -20,8 +20,9 @@ const Messages: FC = () => {
   useEffect(() => {
     const dataMessages = { db, setFunction: setMessages };
 
-    const unSub = ServiceAPI.getMessages(dataMessages);
-    return () => unSub();
+    const unsubscribe = ServiceAPI.getMessages(dataMessages);
+
+    return () => unsubscribe();
   }, []);
 
   const addMessageHandler = async () => {

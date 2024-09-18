@@ -1,10 +1,21 @@
 import { Avatar, Button, Card, Chip } from "@mui/material";
 import { FC } from "react";
+import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { useAuth } from "../../providers/useAuth";
 
 const User: FC = () => {
   const { ga, user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(ga);
+      navigate("/auth");
+    } catch (error) {
+      console.error("Sign out error: ", error);
+    }
+  };
 
   return (
     <Card
@@ -23,7 +34,7 @@ const User: FC = () => {
         variant="outlined"
         sx={{ display: "flex", marginBottom: 2 }}
       />
-      <Button variant="outlined" onClick={() => signOut(ga)}>
+      <Button variant="outlined" onClick={handleSignOut}>
         Выход
       </Button>
     </Card>

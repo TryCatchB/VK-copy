@@ -17,8 +17,10 @@ const Posts: FC = () => {
   useEffect(() => {
     const dataToGet = { db, setFunction: setPosts, typeGetData: "posts" };
 
-    ServiceAPI.getPosts(dataToGet);
-  }, []);
+    const unsubscribe = ServiceAPI.getPosts(dataToGet);
+
+    return () => unsubscribe();
+  }, [db]);
 
   if (!posts.length) {
     return <Loader />;
